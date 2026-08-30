@@ -1,38 +1,126 @@
 <!doctype html>
-<html lang="en-AU">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>COMP4020 prototype</title>
     <meta
       name="description"
-      content="Replace this with one sentence saying what this page is. A search result and a link preview both show it."
+      content="Neko Escape is a tiny desktop-pet chase where every second adds to the panic."
     />
-
-    <!--
-      The link-preview card: public/card.png, 1200x630 --- replace it. The URL
-      resolves against this page, like any link. No og:title/og:description:
-      scrapers fall back to the <title> and description above.
-    -->
-    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Neko Escape" />
+    <meta
+      property="og:description"
+      content="One tiny mouse. A growing crowd of pixel cats. How long can you stay free?"
+    />
     <meta property="og:image" content="./card.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-
+    <meta name="theme-color" content="#211b2d" />
+    <title>Neko Escape — pixel cursor panic</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header>
-      <nav aria-label="Primary">
-        <a href="./">Home</a>
+    <div class="app" data-app data-phase="menu">
+      <nav class="topbar" aria-label="Game">
+        <a class="wordmark" href="./" aria-label="Neko Escape home">
+          <span class="wordmark-cat" aria-hidden="true">N</span>
+          <span>NEKO ESCAPE</span>
+        </a>
+        <span class="system-mark" aria-hidden="true">CATNET // NIGHT SHIFT</span>
       </nav>
-    </header>
-    <main>
-      <h1>COMP4020 prototype</h1>
-      <p>
-        Replace this with your prototype. This week's brief is on the course website;
-        <code>spec/README.md</code> explains how the checks in this repo relate to it.
-      </p>
-    </main>
+
+      <main class="game-shell">
+        <section class="arena" aria-label="Neko Escape play area">
+          <canvas
+            data-game-canvas
+            width="1280"
+            height="720"
+            tabindex="0"
+            aria-label="Animated play field"
+          >
+            Animated game canvas.
+          </canvas>
+
+          <div class="corner-label corner-label-left" aria-hidden="true">
+            CURSOR CAM 01
+          </div>
+          <div class="corner-label corner-label-right" aria-hidden="true">
+            <span class="live-dot"></span> LIVE
+          </div>
+
+          <div class="hud" data-hud hidden>
+            <div class="hud-block hud-time">
+              <span class="hud-label">TIME</span>
+              <output data-timer aria-label="Time remaining">1:00</output>
+            </div>
+            <div class="hud-block hud-cats">
+              <span class="cat-glyph" aria-hidden="true">^._.^</span>
+              <output data-cat-count aria-label="Cats chasing">1</output>
+            </div>
+          </div>
+
+          <section class="screen menu-screen" data-screen="menu" aria-labelledby="game-title">
+            <div class="menu-stage">
+              <div class="title-cluster">
+                <p class="eyebrow">CATNET NIGHT SHIFT // 1998</p>
+                <h1 id="game-title"><span>NEKO</span><span>ESCAPE</span></h1>
+                <p class="tagline" aria-hidden="true">
+                  ONE CURSOR&nbsp;&nbsp;•&nbsp;&nbsp;NINE LIVES&nbsp;&nbsp;•&nbsp;&nbsp;NO EXIT
+                </p>
+              </div>
+
+              <div class="difficulty-grid" aria-label="Choose a round">
+                <button class="difficulty difficulty-easy" data-difficulty="easy" type="button">
+                  <span class="choice-index" aria-hidden="true">01</span>
+                  <span class="choice-name">SNOOZE</span>
+                  <strong>1:00</strong>
+                  <span class="pressure" aria-hidden="true">◆</span>
+                </button>
+                <button class="difficulty difficulty-medium" data-difficulty="medium" type="button">
+                  <span class="choice-index" aria-hidden="true">02</span>
+                  <span class="choice-name">SCAMPER</span>
+                  <strong>2:00</strong>
+                  <span class="pressure" aria-hidden="true">◆ ◆</span>
+                </button>
+                <button class="difficulty difficulty-hard" data-difficulty="hard" type="button">
+                  <span class="choice-index" aria-hidden="true">03</span>
+                  <span class="choice-name">MAYHEM</span>
+                  <strong>3:00</strong>
+                  <span class="pressure" aria-hidden="true">◆ ◆ ◆</span>
+                </button>
+              </div>
+
+              <p class="edition-mark" aria-hidden="true">A TINY DESKTOP-PET PANIC</p>
+            </div>
+          </section>
+
+          <section class="screen end-screen" data-screen="end" aria-labelledby="end-title" hidden>
+            <div class="end-panel">
+              <div data-end-state="won" hidden>
+                <p class="end-stamp">NIGHT CLEARED</p>
+                <h2 id="end-title">ESCAPED!</h2>
+                <div class="end-icon end-icon-mouse" aria-hidden="true">&lt;:3 )~~~</div>
+              </div>
+              <div data-end-state="lost" hidden>
+                <p class="end-stamp">CURSOR OFFLINE</p>
+                <h2>CAUGHT!</h2>
+                <div class="end-icon end-icon-cat" aria-hidden="true">^._.^</div>
+              </div>
+              <p class="result-line" data-result-line>0:00 // 1 CAT</p>
+              <div class="end-actions">
+                <button class="action action-primary" data-action="replay" type="button">
+                  AGAIN
+                </button>
+                <button class="action action-secondary" data-action="menu" type="button">
+                  CHANGE NIGHT
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <p class="visually-hidden" data-live aria-live="polite"></p>
+        </section>
+      </main>
+    </div>
+
     <script type="module" src="./main.js"></script>
   </body>
 </html>
