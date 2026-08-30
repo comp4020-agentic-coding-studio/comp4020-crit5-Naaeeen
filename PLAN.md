@@ -44,8 +44,9 @@ During play:
 - Arrow/WASD input provides a keyboard path without adding tutorial copy.
 - A cat spawn is telegraphed briefly at an edge and placed far enough from the
   mouse to avoid an unavoidable loss.
-- One cat appears initially; another arrives every 25, 22 or 19 seconds as
+- One cat appears initially; another arrives every 12, 9 or 7 seconds as
   difficulty rises.
+- Difficulty caps the crowd at 6, 14 or 26 cats to keep long rounds escalating.
 - Cat variants differ in speed and steering: a fast cat overshoots more, a
   steady cat turns well, and a slow cat occupies space.
 - The HUD contains only the countdown and compact status imagery.

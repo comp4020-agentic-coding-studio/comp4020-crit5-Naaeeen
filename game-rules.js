@@ -12,6 +12,7 @@
  * @property {string} label
  * @property {number} durationMs
  * @property {number} spawnIntervalMs
+ * @property {number} maxCats
  * @property {number} speedMultiplier
  */
 
@@ -54,19 +55,22 @@ export const DIFFICULTIES = Object.freeze({
   easy: Object.freeze({
     label: "1:00",
     durationMs: 60_000,
-    spawnIntervalMs: 25_000,
+    spawnIntervalMs: 12_000,
+    maxCats: 6,
     speedMultiplier: 0.88,
   }),
   medium: Object.freeze({
     label: "2:00",
     durationMs: 120_000,
-    spawnIntervalMs: 22_000,
+    spawnIntervalMs: 9_000,
+    maxCats: 14,
     speedMultiplier: 1,
   }),
   hard: Object.freeze({
     label: "3:00",
     durationMs: 180_000,
-    spawnIntervalMs: 19_000,
+    spawnIntervalMs: 7_000,
+    maxCats: 26,
     speedMultiplier: 1.12,
   }),
 });
@@ -112,6 +116,19 @@ export function getDifficulty(key) {
   }
 
   return DIFFICULTIES.easy;
+}
+
+/**
+ * @param {string} difficulty
+ * @param {number} elapsedMs
+ * @returns {number}
+ */
+export function getScheduledCatCount(difficulty, elapsedMs) {
+  const config = getDifficulty(difficulty);
+  const safeElapsedMs = Number.isFinite(elapsedMs) ? Math.max(0, elapsedMs) : 0;
+  const intervalSpawns = Math.floor(safeElapsedMs / config.spawnIntervalMs);
+
+  return Math.min(config.maxCats, 1 + intervalSpawns);
 }
 
 /**

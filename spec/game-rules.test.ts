@@ -7,21 +7,33 @@ import {
   clampPoint,
   createCat,
   formatClock,
+  getScheduledCatCount,
   getRoundPhase,
 } from "../game-rules.js";
 
 describe("Neko Escape rules", () => {
-  it("maps difficulty to longer rounds and increasing pursuit pressure", () => {
+  it("maps difficulty to longer rounds and a denser cat curve", () => {
     expect(DIFFICULTIES.easy.durationMs).toBe(60_000);
     expect(DIFFICULTIES.medium.durationMs).toBe(120_000);
     expect(DIFFICULTIES.hard.durationMs).toBe(180_000);
 
-    expect(DIFFICULTIES.easy.spawnIntervalMs).toBeGreaterThan(
-      DIFFICULTIES.medium.spawnIntervalMs,
-    );
-    expect(DIFFICULTIES.medium.spawnIntervalMs).toBeGreaterThan(
-      DIFFICULTIES.hard.spawnIntervalMs,
-    );
+    expect(
+      Object.values(DIFFICULTIES).map(({ spawnIntervalMs }) => spawnIntervalMs),
+    ).toEqual([12_000, 9_000, 7_000]);
+    expect(
+      Object.values(DIFFICULTIES).map(({ maxCats }) => maxCats),
+    ).toEqual([6, 14, 26]);
+  });
+
+  it("schedules the initial cat, interval spawns, and the difficulty cap", () => {
+    expect(getScheduledCatCount("easy", -1)).toBe(1);
+    expect(getScheduledCatCount("easy", 11_999)).toBe(1);
+    expect(getScheduledCatCount("easy", 12_000)).toBe(2);
+    expect(getScheduledCatCount("easy", 60_000)).toBe(6);
+    expect(getScheduledCatCount("medium", 120_000)).toBe(14);
+    expect(getScheduledCatCount("hard", 174_999)).toBe(25);
+    expect(getScheduledCatCount("hard", 175_000)).toBe(26);
+    expect(getScheduledCatCount("hard", 999_000)).toBe(26);
   });
 
   it("ends at the timer and gives capture precedence on the same frame", () => {

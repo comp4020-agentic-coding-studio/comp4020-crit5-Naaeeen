@@ -10,6 +10,7 @@ import {
   getDifficulty,
   getRemainingMs,
   getRoundPhase,
+  getScheduledCatCount,
   rollsFromRandom,
 } from "./game-rules.js";
 
@@ -33,7 +34,6 @@ import {
  * @property {number} startedAt
  * @property {number} lastFrameAt
  * @property {number} elapsedMs
- * @property {number} nextSpawnAtMs
  * @property {number} catCounter
  * @property {Cat[]} cats
  * @property {Point} target
@@ -43,7 +43,6 @@ import {
 /** @typedef {{ width: number, height: number, dpr: number }} View */
 
 const MOUSE_RADIUS = 13;
-const MAX_CATS = 12;
 const MOVEMENT_KEYS = new Set([
   "arrowup",
   "arrowdown",
@@ -111,7 +110,6 @@ let state = {
   startedAt: 0,
   lastFrameAt: performance.now(),
   elapsedMs: 0,
-  nextSpawnAtMs: Number.POSITIVE_INFINITY,
   catCounter: 0,
   cats: [],
   target: { x: 0, y: 0 },
@@ -212,7 +210,6 @@ function startRound(difficulty) {
     startedAt: now,
     lastFrameAt: now,
     elapsedMs: 0,
-    nextSpawnAtMs: config.spawnIntervalMs,
     catCounter: 1,
     cats: [firstCat],
     target,
@@ -247,7 +244,6 @@ function enterMenu() {
     startedAt: 0,
     lastFrameAt: now,
     elapsedMs: 0,
-    nextSpawnAtMs: Number.POSITIVE_INFINITY,
     catCounter: 0,
     cats: [demoCat],
     target,
@@ -331,16 +327,15 @@ function updateMenuAttract(now, deltaSeconds) {
  * @returns {GameState}
  */
 function spawnDueCats(baseState, now) {
-  const config = DIFFICULTIES[baseState.difficulty];
   let cats = [...baseState.cats];
   let signals = [...baseState.signals];
-  let nextSpawnAtMs = baseState.nextSpawnAtMs;
   let catCounter = baseState.catCounter;
+  const scheduledCatCount = getScheduledCatCount(
+    baseState.difficulty,
+    baseState.elapsedMs,
+  );
 
-  while (
-    baseState.elapsedMs >= nextSpawnAtMs &&
-    cats.length < MAX_CATS
-  ) {
+  while (cats.length < scheduledCatCount) {
     catCounter += 1;
     const cat = makeCat(
       `cat-${catCounter}`,
@@ -349,11 +344,10 @@ function spawnDueCats(baseState, now) {
     );
     cats = [...cats, cat];
     signals = [...signals, makeSpawnSignal(cat, now)];
-    nextSpawnAtMs += config.spawnIntervalMs;
     announce(`${cat.kind} cat joined. ${cats.length} cats.`);
   }
 
-  return { ...baseState, cats, signals, nextSpawnAtMs, catCounter };
+  return { ...baseState, cats, signals, catCounter };
 }
 
 /**
