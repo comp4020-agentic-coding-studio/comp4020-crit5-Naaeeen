@@ -1,44 +1,39 @@
 # Process overview
 
-## What I built
+## Directing the agent through the repository
 
-**Neko Escape** turns the WebNeko desktop-pet feeling into one survival rule:
-an original pixel cat follows the pointer-mouse, contact loses, and zero on the
-clock wins. The one-, two- and three-minute nights add cats at increasing
-pressure; slow, steady and fast coats behave differently. An animated menu
-demonstrates the relationship without a tutorial.
-
-## The moments that mattered
-
-### I rebuilt the harness before the game
-
-The inherited harness still described Vite/TypeScript and carried Crit 2/4
-history. I preserved the bare stack, made `CLAUDE.md` the stable rule owner,
-added a thin `AGENTS.md`, and put this week's response in `PLAN.md`. It records
-the WSL command path, `mise exec`, instead of the machine's older Node. See
+I did not begin with “make a game.” I audited the inherited Crit 4 harness,
+read the Crit 5 contract, and separated stable rules from weekly decisions.
+`CLAUDE.md` became the source-linked contract for architecture, commands,
+verification and the no-push boundary; `AGENTS.md` routes other agents to it;
+`PLAN.md` owns the game design. The repository, not a drifting chat, became the
+shared context. See
 [`209cc6e`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit5-Naaeeen/commit/209cc6e).
 
-> “look at the existing harness ... remove Crit 4-specific requirements ...
-> update CLAUDE.md ... plan before action.”
+## Giving mechanical claims automatic backpressure
 
-### I gave tests and play different jobs
-
-The first rule run failed because `game-rules.js` did not exist. The green slice
-injected random rolls and tested durations, collision precedence, clamping,
-safe edge spawns and distinct cat speeds. That made the simulation
-deterministic without pretending tests could prove fairness or no-tutorial
-play. See
+I wrote the focused rules test before `game-rules.js`; the first run failed
+because the module was absent. The smallest green implementation extracted
+timing, collision, clamping, spawning and pursuit into pure functions. Time and
+random rolls are inputs rather than hidden browser state, while `main.js` is the
+canvas adapter. The agent could therefore verify its output with a repeatable
+command instead of treating plausible code as evidence. See
 [`3e31d19`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit5-Naaeeen/commit/3e31d19).
 
-### The finished game corrected the phone layout
+## Reserving judgement for play
 
-Playwright cold-played the built output at `1920×1080` and `390×844`: desktop
-lost and replayed, phone touch started hard mode, and a 23-second run produced a
-second coloured cat with a clean console. The first phone screenshot exposed
-what 33 green checks missed: “ESCAPE” and `3:00` touched the clipped frame. I
-reduced only the mobile type and spacing, then replayed and captured the
-correction. See
-[`b18f309`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit5-Naaeeen/commit/b18f309).
+Tests could prove capture and scheduling, but not whether the opening taught
+itself or the chase felt fair. I played the built artefact at both marking
+viewports, checked touch, replay and the console, then compared screenshots.
+That exposed mobile title clipping and caused a targeted layout correction. See
+[`b18f309`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit5-Naaeeen/commit/b18f309)
+and
+[`cd8b647`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit5-Naaeeen/commit/cd8b647).
+Later, real user play found the cat curve too sparse. Rather than merely
+re-prompting, I converted that judgement into a failing schedule test, a pure
+`getScheduledCatCount` rule and explicit `12/9/7`-second intervals. The
+34-test suite and a browser run verified the correction. See
+[`111f7e1`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit5-Naaeeen/commit/111f7e1).
 
 | Before play correction | After play correction |
 | --- | --- |
