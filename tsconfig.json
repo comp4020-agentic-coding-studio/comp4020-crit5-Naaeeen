@@ -6,6 +6,8 @@
     // Imports name the file they mean, extension and all --- which is what
     // node itself wants when it runs a .ts file directly.
     "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "checkJs": true,
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "types": ["node"],
     "strict": true,
@@ -16,5 +18,11 @@
     "useDefineForClassFields": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["*.ts", "spec", "scripts"]
+  "include": [
+    "main.js",
+    "game-rules.js",
+    "*.ts",
+    "spec",
+    "scripts/**/*.ts"
+  ]
 }
