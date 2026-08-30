@@ -36,8 +36,15 @@ describe("Neko Escape built-page contract", () => {
   });
 
   it("keeps both round outcomes and recovery actions in semantic HTML", () => {
-    expect(doc.querySelector('[data-end-state="won"]')).toBeTruthy();
-    expect(doc.querySelector('[data-end-state="lost"]')).toBeTruthy();
+    const endScreen = doc.querySelector('[data-screen="end"]');
+    const wonState = doc.querySelector('[data-end-state="won"]');
+    const lostState = doc.querySelector('[data-end-state="lost"]');
+
+    expect(endScreen?.getAttribute("aria-labelledby")).toBe("end-title-won");
+    expect(wonState).toBeTruthy();
+    expect(lostState).toBeTruthy();
+    expect(wonState?.querySelector("h2")?.id).toBe("end-title-won");
+    expect(lostState?.querySelector("h2")?.id).toBe("end-title-lost");
     expect(doc.querySelector('button[data-action="replay"]')).toBeTruthy();
     expect(doc.querySelector('button[data-action="menu"]')).toBeTruthy();
   });

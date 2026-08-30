@@ -364,6 +364,10 @@ function finishRound(phase) {
   const survived = formatClock(state.elapsedMs);
 
   app.dataset.phase = phase;
+  endScreen.setAttribute(
+    "aria-labelledby",
+    phase === "won" ? "end-title-won" : "end-title-lost",
+  );
   hud.hidden = true;
   endScreen.hidden = false;
   wonState.hidden = phase !== "won";
