@@ -9,6 +9,15 @@ The
 publishes this deliverable's brief and spec, and this repo's name tells you
 which deliverable applies. Read both before you plan or build.
 
+## How to work in here
+
+- Keep the dev server running (`pnpm dev`) so you see changes as you make them.
+- Run `pnpm check` before you push.
+- Open the page in a browser and look at it. The rendered page is the truth;
+  your mental model of it isn't.
+- When a check fails, read its output before you change anything.
+- Never commit a red state.
+
 ## The link-preview card
 
 `public/card.png` (1200x630) is the image a shared link shows; `index.html`'s
@@ -32,3 +41,16 @@ harness is assessed. This file and the sensors you wire into `check` carry
 across the course --- both come with you into next week's repo. The prototype
 doesn't: source, and the tests answering this week's published spec, stay
 behind. `spec/README.md` draws the line.
+
+## Carried forward from Crit 2
+
+General conventions that held up in previous weeks, kept regardless of this
+week's stack or brief (the Astro-specific material from Crit 2's own harness ---
+its stack conversion notes, `astro check`, the oxlint/stylelint roster --- did
+not carry forward, since this week's starter is vanilla Vite/TS, not Astro; see
+`spec/invariants.test.ts` for what's mechanically enforced either way):
+
+- Every page uses consistent semantic navigation and exactly one `<h1>`.
+- Run `pnpm check` before accepting implementation changes, not just before
+  pushing.
+- Avoid remote fonts and unnecessary external assets.
